@@ -1,0 +1,17 @@
+---
+- hosts: vagrant
+  tasks:
+    - name: ensure jre is installed
+      apt: pkg=openjdk-7-jre update-cache=yes state=latest
+
+    - name: get es deb file
+      get_url: url=https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.0.deb dest=~/es.deb
+
+    - name: install es
+      shell: dpkg -i ~/es.deb
+
+    - name: install curl
+      apt: pkg=curl state=latest
+
+    - name: start es
+      service: name=elasticsearch state=restarted
